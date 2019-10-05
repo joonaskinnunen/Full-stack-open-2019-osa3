@@ -1,7 +1,7 @@
-post http://localhost:3001/api/persons
+post http://localhost:3001/api/persons/
 Content-Type: application/json
 
 {
-    "name": "Jeff Bezos",
-    "number": "0401234567"
+    "number": "0401234567",
+    "name": "Jeff Bezos"
 }
