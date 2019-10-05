@@ -1,6 +1,7 @@
-POST http://localhost:3003/notes
+post http://localhost:3001/api/persons
 Content-Type: application/json
+
 {
-    "content": "HTML is hard",
-    "important": true
+    "name": "Jeff Bezos",
+    "number": "0401234567"
 }

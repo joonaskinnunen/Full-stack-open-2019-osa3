@@ -6,47 +6,50 @@ app.use(bodyParser.json())
 
 let persons = [
     {
-      name: 'Seppo Seinähullu',
-      number: '04519348567',
-      id: 1
+        name: 'Seppo Seinähullu',
+        number: '04519348567',
+        id: 1
     },
     {
         name: 'Matti Meikäläinen',
         number: '0441609814',
         id: 2
-      },
-      {
+    },
+    {
         name: 'Aku Ankka',
         number: '0400404444',
         id: 3
-      },
-      {
+    },
+    {
         name: 'Matti Mallikas',
         number: '0501837485',
         id: 4
-      }
-  ]
+    }
+]
 
-  const generateId = () => {
-      const maxId = notes.length > 0 ? Math.max(notes.map(x => x.id))
-      : 0
-      return maxId + 1
-  }
+const generateId = () => {
+    const id = Math.floor((Math.random() * 100000) + 1);
+    console.log(id)
+    return id
+}
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello world</h1>')
 })
 
-app.get('/persons', (req, res) => {
+app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
 
-app.get('/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     const person = persons.find(person => person.id === id)
+    if (person) {
+        res.json(person)
+    } else {
+        res.status(404).end()
+    }
 
-    person ? res.json(person) : res.status(404).end()
-    res.json(person)
 })
 
 app.get('/info', (req, res) => {
@@ -54,22 +57,20 @@ app.get('/info', (req, res) => {
 })
 
 
-app.delete('/persons/:id', (req,res) => {
+app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     persons = persons.filter(person => person.id !== id)
     res.status(204).end()
 })
 
-app.post('/persons', (req, res) => {
-if(!res.body) {
-    return res.status(400).json({
-        error:'content missing'
-    })
-}
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+    console.log(body)
+    console.log(req.body.number)
+
     const person = {
-        content: body.content,
-        important: body.important || false,
-        date: new Date(),
+        name: body.name,
+        number: body.number,
         id: generateId()
 
     }
@@ -79,7 +80,7 @@ if(!res.body) {
     res.json(person)
 })
 
-const PORT = 3003
+const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
