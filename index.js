@@ -4,7 +4,14 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
 app.use(bodyParser.json())
-app.use(morgan('tiny'));
+
+morgan.token('data', function (req, res) {
+    return JSON.stringify(req.body);
+});
+
+app.use(morgan(':method :status :res[content-length] - :response-time ms :data'));
+
+
 
 let persons = [
     {
@@ -31,7 +38,6 @@ let persons = [
 
 const generateId = () => {
     const id = Math.floor((Math.random() * 100000) + 1);
-    console.log(id)
     return id
 }
 
@@ -67,8 +73,6 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-    console.log(body)
-    console.log(req.body.number)
 
     if (!body.name || !body.number) {
         return res.status(400).json({
