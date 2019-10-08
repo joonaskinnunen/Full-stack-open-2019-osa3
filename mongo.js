@@ -12,15 +12,14 @@ const url =
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
-const noteSchema = new mongoose.Schema({
+const personSchema = new mongoose.Schema({
   name: String,
   number: String
 })
-const Note = mongoose.model('Note', noteSchema)
+const Person = mongoose.model('Person', personSchema)
 
 if(process.argv.length === 3) {
-Note.find({
-
+Person.find({
 })
 .then(x => {
     console.log('phonebook:')
@@ -29,14 +28,14 @@ Note.find({
 })
 }
 
-const note = new Note({
+const person = new Person({
     name: process.argv[3],
     number: process.argv[4]
 })
 
 if(process.argv.length === 5) {
 
-note.save().then(response => {
+person.save().then(response => {
   console.log('added ' + process.argv[3] + ' number ' + process.argv[4] + ' to phonebook');
   mongoose.connection.close();
 })
