@@ -15,10 +15,6 @@ morgan.token('data', function (req, res) {
     return JSON.stringify(req.body);
 });
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello world</h1>')
-})
-
 app.get('/api/persons', (request, response) => {
     Person.find({}).then(notes => {
         response.json(notes.map(note => note.toJSON()))
@@ -31,14 +27,9 @@ app.get('/api/persons/:id', (request, response) => {
     })
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-    Person.findById(request.params.id).then(note => {
-        response.json(note.toJSON())
-    })
-})
-
 app.get('/info', (req, res) => {
-    res.send('Phonebook has info for ' + persons.length + ' people <br /><br />' + new Date())
+
+    res.send('Phonebook has info for people <br /><br />' + new Date())
 })
 
 app.post('/api/persons', (req, res) => {
