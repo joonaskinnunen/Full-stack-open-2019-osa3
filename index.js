@@ -33,9 +33,12 @@ app.get('/api/persons/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.get('/info', (req, res) => {
+app.get('/info', (req, res, next) => {
+    Person.find({}).then(notes => {
+        res.send('Phonebook has info for ' + notes.length + ' people<br>' + new Date())
+    })
+        .catch(error => next(error))
 
-    res.send('Phonebook has info for people <br /><br />' + new Date())
 })
 
 app.post('/api/persons', (req, res) => {
